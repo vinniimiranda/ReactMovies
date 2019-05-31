@@ -1,11 +1,15 @@
 import React from "react";
 import { Button, Grid, Icon, Card } from "@material-ui/core/";
-
-const btnStyle = {
-  // backgroundColor: "#7c4dff",
-  // color: "#fff"
-};
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+const theme = createMuiTheme({
+  palette: {
+    primary: { main:'#7c4dff' }, // Purple and green play nicely together.
+    secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
+  },
+});
 const Pagination = props => {
+  
   let [pages, setPages] = React.useState([1, 2, 3, 4, 5, 6]);
   const next = () => {  
     if (pages[pages.length - 1] === props.currentPage) {
@@ -23,13 +27,14 @@ const Pagination = props => {
   };
 
   return (
+    <ThemeProvider theme={theme}>
     <Grid item xs={12}>
       <Card style={{ borderRadius: "1rem" }}>
         <Grid container style={{ margin: 10 }}>
-          <Grid item xs={2} />
-          <Grid item xs={1}>
+          <Grid item xs={1} sm={2} md={2} />
+          <Grid item xs={2} sm={1} md={1}>
             <Button
-              style={btnStyle}
+              
               onClick={() => back()}
               color="primary"
               variant="outlined"
@@ -40,9 +45,9 @@ const Pagination = props => {
           </Grid>
           {pages.map((page, i) => {
             return (
-              <Grid item xs={1}>
+              <Grid item xs={2} sm={1} md={1}>
                 <Button
-                  style={btnStyle}
+                  
                   onClick={() => props.goTo(page)}
                   color="primary"
                   variant={
@@ -55,7 +60,7 @@ const Pagination = props => {
             );
           })}
           <Grid item xs={1}>
-            <Button color="primary" style={btnStyle} onClick={() => next()} variant="outlined">
+            <Button color="primary"  onClick={() => next()} variant="outlined">
               <Icon>keyboard_arrow_right</Icon>
             </Button>
           </Grid>
@@ -63,6 +68,7 @@ const Pagination = props => {
         </Grid>
       </Card>
     </Grid>
+    </ThemeProvider>
   );
 };
 

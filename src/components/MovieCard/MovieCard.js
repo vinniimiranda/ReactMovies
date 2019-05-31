@@ -19,14 +19,16 @@ import "moment/locale/pt-br";
 
 const useStyles = makeStyles(theme => ({
   card: {
-    borderRadius: "1.9rem"
+    borderRadius: "1.9rem",
+    // height: 500,
+    filter: "drop-shadow(2px 7px 0 rgba(0,0,0,.3))"
   },
   media: {
-    height: 0,
+    height: 550,
     paddingTop: "56.25%"
   },
   expand: {
-    position: 'absolute',
+    position: "absolute",
     right: 20,
     transform: "rotate(0deg)",
     marginLeft: "auto",
@@ -35,18 +37,20 @@ const useStyles = makeStyles(theme => ({
     })
   },
   expandOpen: {
-    transform: "rotate(180deg)"
+    transform: "rotate(180deg)",
+    zIndex: "500"
   }
 }));
 const MovieCard = props => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [apiKey] = React.useState("7b8e1e239f830512fd3d0ada5105a8e7");
   const [movie, setMovie] = React.useState({});
   const handleExpandClick = idMovie => {
     axios
       .get(
-        `https://api.themoviedb.org/3/movie/${idMovie}?api_key=${apiKey}&language=pt-bt`
+        `https://api.themoviedb.org/3/movie/${idMovie}?api_key=${
+          props.apiKey
+        }&language=pt-bt`
       )
       .then(({ data }) => {
         setMovie(data);
@@ -85,11 +89,22 @@ const MovieCard = props => {
               </IconButton>
             </Typography>
           </CardContent>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <CardContent>
+          <Collapse
+            in={expanded}
+            timeout="auto"
+            unmountOnExit
+            style={{
+              position: "absolute",
+              bottom: 0,
+              backgroundColor: "#fff",
+              width: "100%",
+              
+            }}
+          >
+            <CardContent style={{height: '100%', overflowY: 'auto'}}>
               {props.overview ? (
                 <Typography
-                  style={{ textAlign: "left" }}
+                  style={{ textAlign: "left", clear: "both" }}
                   variant="subtitle1"
                   color="textSecondary"
                   component="p"
@@ -113,7 +128,11 @@ const MovieCard = props => {
               </Typography>
               <Typography variant="body1" color="textSecondary" component="p">
                 <strong>Data de Lançamento:</strong>{" "}
-                {props.releaseDate ? dateFormatter(props.releaseDate) : null}
+                {props.releaseDate ? dateFormatter(props.releaseDate) : dateFormatter(props.first_air_date)}
+              </Typography>
+              <Typography variant="body1" color="textSecondary" component="p">
+                <strong>Generos: </strong>{" "}
+                {movie.genres ? movie.genres.map(g => `#${g.name} `) : null}
               </Typography>
             </CardContent>
           </Collapse>
