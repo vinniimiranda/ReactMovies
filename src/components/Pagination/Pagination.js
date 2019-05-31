@@ -32,7 +32,7 @@ const Pagination = props => {
       <Card style={{ borderRadius: "1rem" }}>
         <Grid container style={{ margin: 10 }}>
           <Grid item xs={1} sm={2} md={2} />
-          <Grid item xs={2} sm={1} md={1}>
+          <Grid item xs={2} sm={2} md={1}>
             <Button
               
               onClick={() => back()}
@@ -45,7 +45,7 @@ const Pagination = props => {
           </Grid>
           {pages.map((page, i) => {
             return (
-              <Grid item xs={2} sm={1} md={1}>
+              <Grid item xs={2} sm={2} md={1}>
                 <Button
                   
                   onClick={() => props.goTo(page)}
@@ -64,7 +64,7 @@ const Pagination = props => {
               <Icon>keyboard_arrow_right</Icon>
             </Button>
           </Grid>
-          <Grid item xs={2} />
+          <Grid item xs={2} sm={2} />
         </Grid>
       </Card>
     </Grid>
